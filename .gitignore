@@ -1,4 +1,15 @@
+# Ignore virtual environment
 jokic/
+
+# Ignore Python cache
 __pycache__/
-.DS_Store
-*.ipynb_checkpoints
+*.py[cod]
+
+# Ignore notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore all CSV files in data/
+data/*.csv
+
+# Ignore environment files
+.env/
