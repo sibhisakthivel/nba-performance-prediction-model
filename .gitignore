@@ -8,8 +8,7 @@ __pycache__/
 # Ignore notebook checkpoints
 .ipynb_checkpoints/
 
-# Ignore all CSV files in data/
-data/*.csv
-
 # Ignore environment files
 .env/
+
+.python/
