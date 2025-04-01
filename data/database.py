@@ -8,7 +8,7 @@ df = pd.read_csv(path)
 # df = pd.read_csv("jokic_game_logs.csv")
 
 # Initialize dictionary
-feature_map = {}
+gamelogs = {}
 
 # Loop through each game
 for _, row in df.iterrows():
@@ -25,24 +25,25 @@ for _, row in df.iterrows():
     ftm = row["FTM"]
     win = 1 if row["WL"] == "W" else 0
     home = 1 if "vs" in row["MATCHUP"] else 0
-
-    # Label: PRA
-    pra = [points, rebounds, assists]
+    opponent = row["MATCHUP"][-3:]
 
     # Store in hashmap by game date
-    feature_map[game_date] = {
-        "features": {
-            "minutes": minutes,
-            "fga": fga,
-            "fgm": fgm,
-            "fta": fta,
-            "ftm": ftm,
-            "win": win,
-            "home": home
-        },
-        "label": pra
+    gamelogs[game_date] = {
+        "points": points,
+        "rebounds": rebounds,
+        "assists": assists,
+        "minutes": minutes,
+        "fga": fga,
+        "fgm": fgm,
+        "fta": fta,
+        "ftm": ftm,
+        "win": win,
+        "home": home,
+        "opponent": opponent
     }
 
 # Example: print 1 row
-for date, values in list(feature_map.items())[:100]:
-    print(f"{date}: {values}")
+for date, stats in list(gamelogs.items())[:1]:
+    print(f"{date}: {stats}")
+
+# 
