@@ -1,7 +1,11 @@
 import pandas as pd
+import os
+
+path = os.path.join("data", "jokic_game_logs.csv")
+df = pd.read_csv(path)
 
 # Load cleaned Jokic data
-df = pd.read_csv("jokic_game_logs.csv")
+# df = pd.read_csv("jokic_game_logs.csv")
 
 # Initialize dictionary
 feature_map = {}
@@ -40,5 +44,5 @@ for _, row in df.iterrows():
     }
 
 # Example: print 1 row
-for date, values in list(feature_map.items())[:1]:
+for date, values in list(feature_map.items())[:100]:
     print(f"{date}: {values}")
