@@ -41,63 +41,169 @@ for _, row in df.iterrows():
         "opponent": opponent
     }
 
-# Example: print 1 row
-for date, stats in list(gamelogs.items())[:1]:
-    print(f"{date}: {stats}")
+# # Print Game Logs
+# for date, stats in list(gamelogs.items())[:1]:
+#     print(f"{date}: {stats}")
 
-# === Season Average PRA ===
-pra_total = 0
-game_count = 0
-
-for stats in gamelogs.values():
-    pra = stats["points"] + stats["rebounds"] + stats["assists"]
-    pra_total += pra
-    game_count += 1
-
-szn_avg = pra_total / game_count if game_count > 0 else 0
-print(f"✅ Season average PRA: {szn_avg:.2f}")
-
-# === Last 10 Games Rolling Average PRA ===
 sorted_gamelogs = OrderedDict(
     sorted(gamelogs.items(), key=lambda x: datetime.strptime(x[0], "%Y-%m-%d"))
 )
 
-rolling_10_avg = {}
-pra_history = []
+feature_map = {}
 
-for game_date, stats in sorted_gamelogs.items():
-    pra = stats["points"] + stats["rebounds"] + stats["assists"]
+for game_date in sorted_gamelogs.keys():
+    feature_map[game_date] = {
+        "season_avg_pra": None,
+        "rolling_avg_pra": None,
+        "head2head_avg_pra": None,
+        "label": None  # we'll use this for actual PRA from the game
+    }
 
-    if len(pra_history) >= 1:
-        avg = sum(pra_history[-10:]) / len(pra_history[-10:])
-        rolling_10_avg[game_date] = avg
+# Sort game dates chronologically
+sorted_game_dates = sorted(feature_map.keys(), key=lambda date: datetime.strptime(date, "%Y-%m-%d"))
+
+# Define current season start date
+season_start = datetime.strptime("2024-10-22", "%Y-%m-%d")
+
+season_pra_history = []
+print("\n🧠 Tracking Season PRA Calculation (First 5 games of CURRENT season only):\n")
+
+count = 0
+for game_date in sorted_game_dates:
+    game_dt = datetime.strptime(game_date, "%Y-%m-%d")
+
+    # Skip any games before the current season
+    if game_dt < season_start:
+        continue
+
+    # Compute season average only from games in the current season
+    if len(season_pra_history) == 0:
+        feature_map[game_date]["season_avg_pra"] = None
+        avg_display = "None"
     else:
-        rolling_10_avg[game_date] = None  # not enough data yet
+        avg = sum(season_pra_history) / len(season_pra_history)
+        feature_map[game_date]["season_avg_pra"] = avg
+        avg_display = f"{avg:.2f}"
 
-    pra_history.append(pra)
+    # Calculate and store actual PRA
+    stats = gamelogs[game_date]
+    current_pra = stats["points"] + stats["rebounds"] + stats["assists"]
+    feature_map[game_date]["label"] = current_pra
+    season_pra_history.append(current_pra)
 
-print("\n✅ Rolling 10-game PRA average:")
-for date in list(rolling_10_avg.keys())[-1:]:
-    print(f"🏀{date}: {rolling_10_avg[date]}\n")
-    
-# === Head to Head Average PRA ===
+    # Only show debug for the first 5 games in this season
+    if count < 5:
+        print(f"📅 {game_date} | Season Avg PRA: {avg_display} | Current PRA: {current_pra} | History: {season_pra_history}")
+        count += 1
+
+# === Rolling 10 Average PRA === #
+rolling_pra_window = []
+
+print("\n🔁 Tracking Rolling 10-Game PRA (First 5 of 2024–25 season only):\n")
+
+count = 0
+for game_date in sorted_game_dates:
+    game_dt = datetime.strptime(game_date, "%Y-%m-%d")
+
+    # Skip games before current season
+    if game_dt < season_start:
+        continue
+
+    # Compute rolling average if at least 10 prior games
+    if len(rolling_pra_window) >= 10:
+        rolling_avg = sum(rolling_pra_window[-10:]) / 10
+        feature_map[game_date]["rolling_avg_pra"] = rolling_avg
+    else:
+        feature_map[game_date]["rolling_avg_pra"] = None
+
+    # Calculate current PRA and add to history
+    stats = gamelogs[game_date]
+    pra = stats["points"] + stats["rebounds"] + stats["assists"]
+    rolling_pra_window.append(pra)
+
+    # Debug print for first 5 games in current season
+    if count < 5:
+        avg_display = "None" if feature_map[game_date]["rolling_avg_pra"] is None else f"{feature_map[game_date]['rolling_avg_pra']:.2f}"
+        print(f"📅 {game_date} | Rolling Avg PRA: {avg_display} | Current PRA: {pra} | History: {rolling_pra_window}")
+        count += 1
+        
+# === Head-to-Head PRA vs Timberwolves (only) ===
 h2h_path = os.path.join("data", "jokic_vs_timberwolves_2024.csv")
 h2h_df = pd.read_csv(h2h_path)
 
-# Sum PRA across all Timberwolves games
-h2h_total = 0
-h2h_count = 0
+# Parse and sort the H2H Timberwolves games by date
+h2h_df["GAME_DATE"] = pd.to_datetime(h2h_df["GAME_DATE"])
+h2h_df = h2h_df.sort_values("GAME_DATE")
 
-for _, row in h2h_df.iterrows():
-    pra = row["PTS"] + row["REB"] + row["AST"]
-    h2h_total += pra
-    h2h_count += 1
+# Track prior Timberwolves games
+h2h_game_history = []
 
-h2h_avg = h2h_total / h2h_count if h2h_count > 0 else 0
-print(f"✅ Head-to-head PRA vs Timberwolves: {h2h_avg:.2f}\n")
+for game_date in feature_map:
+    current_date = pd.to_datetime(game_date)
 
-feature_map = {
-    "Season Average PRA": szn_avg,
-    "Rolling Average PRA": list(rolling_10_avg.values())[-1],
-    "Head2Head Average PRA": h2h_avg
-}
+    # Filter out only past Timberwolves games before this date
+    past_games = h2h_df[h2h_df["GAME_DATE"] < current_date]
+
+    if not past_games.empty:
+        total_pra = (past_games["PTS"] + past_games["REB"] + past_games["AST"]).sum()
+        count = past_games.shape[0]
+        avg = total_pra / count
+        feature_map[game_date]["head2head_avg_pra"] = avg
+    else:
+        feature_map[game_date]["head2head_avg_pra"] = None
+        
+# # Print Game Logs
+# for date, stats in list(gamelogs.items())[:1]:
+#     print(f"{date}: {stats}")
+
+# # Sort by most recent
+# recent_games = sorted(feature_map.items(), key=lambda x: datetime.strptime(x[0], "%Y-%m-%d"), reverse=True)
+
+# print("\n📊 Most Recent 5 Games – Features & Label:")
+# for date, features in recent_games[:5]:
+#     opponent = gamelogs[date]["opponent"]
+#     print(f"\n📅 {date} vs {opponent}")
+#     print(f"  🧮 Season Avg PRA:     {features['season_avg_pra']}")
+#     print(f"  🔁 Rolling 10 PRA:     {features['rolling_avg_pra']}")
+#     print(f"  🆚 Timberwolves Avg:   {features['head2head_avg_pra']}")
+#     print(f"  🎯 Actual PRA (Label): {features['label']}")
+
+# Build dataframe from feature_map
+export_rows = []
+
+for game_date in feature_map:
+    row = feature_map[game_date].copy()
+    row["GAME_DATE"] = game_date
+    row["OPPONENT"] = gamelogs[game_date]["opponent"]
+    export_rows.append(row)
+
+# Create DataFrame
+df = pd.DataFrame(export_rows)
+
+# Convert GAME_DATE to datetime
+df["GAME_DATE"] = pd.to_datetime(df["GAME_DATE"])
+
+# Filter for 2024–25 season
+df = df[df["GAME_DATE"] >= pd.to_datetime("2024-10-22")]
+
+# Sort by most recent game first
+df = df.sort_values("GAME_DATE", ascending=False)
+
+# Reorder columns
+ordered_columns = [
+    "GAME_DATE",
+    "OPPONENT",
+    "season_avg_pra",
+    "rolling_avg_pra",
+    "head2head_avg_pra",
+    "label"
+]
+df = df[ordered_columns]
+df = df.round(2)
+
+# Save to CSV
+output_path = os.path.join("data", "jokic_features_24-25.csv")
+df.to_csv(output_path, index=False)
+
+print(f"\n✅ Exported corrected 2024–25 season data to: {output_path}")
+print(f"🗂️  Games included: {df.shape[0]}")
