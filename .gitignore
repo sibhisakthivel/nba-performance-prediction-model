@@ -1,14 +1,32 @@
-# Ignore virtual environment
+# Ignore virtual environments
 jokic/
+.venv/
+env/
+venv/
 
 # Ignore Python cache
 __pycache__/
 *.py[cod]
 
-# Ignore notebook checkpoints
+# Ignore Jupyter notebook checkpoints
 .ipynb_checkpoints/
 
-# Ignore environment files
-.env/
+# Ignore environment/config files
+.env
+*.env
 
-.python/
+# Ignore system files
+.DS_Store
+
+# Ignore model outputs (optional)
+*.pkl
+*.joblib
+
+# Ignore data files if removed for public repo (optional)
+# Uncomment below if you plan to exclude raw data files
+# *.csv
+# data/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
