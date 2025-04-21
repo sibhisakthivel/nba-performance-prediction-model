@@ -20,8 +20,6 @@ Modular design for adding new features and expanding to other players
 
 data/                # Feature values and game logs
   feature_pipeline.py
-  jokic_game_logs.csv
-  jokic_features_24-25.csv
 
 datacollection/      # Data scraping scripts
   scrapegamelogs.py
@@ -75,12 +73,22 @@ Applies model weights to generate PRA prediction
 
 # Example Usage
 
-$ python src/train.py
-📊 Mean Absolute Error (MAE): 11.37
+Scrape Jokic's full game log data (from NBA API)
+    $ python datacollection/scrapegamelogs.py
+    ✅ Saved: data/jokic_game_logs.csv
 
-$ python src/main.py
-📝 Who is Jokic's next opponent (e.g., LAL)? LAC
-📊 Predicted PRA: 52.94
+Generate updated feature values (rolling avg, season avg, head-to-head avg)
+    $ python data/feature_pipeline.py
+    ✅ Saved: data/jokic_features_24-25.csv
+
+Train the model using walk-forward linear regression
+    $ python src/train.py
+    📊 Mean Absolute Error (MAE): 11.37
+
+Predict Jokic's PRA for an upcoming game
+    $ python src/main.py
+    📝 Who is Jokic's next opponent (e.g., LAL)? LAC
+    📊 Predicted PRA: 52.94
 
 # Requirements
 
