@@ -18,20 +18,23 @@ Modular design for adding new features and expanding to other players
 
 # Directory Structure
 
-data/                # Feature values and game logs
-  feature_pipeline.py
+data/                  # Feature values and game logs
+│   feature_pipeline.py
+│   jokic_game_logs.csv
+│   jokic_features_24-25.csv
 
-datacollection/      # Data scraping scripts
-  scrapegamelogs.py
-  jokic_gamelogs_without_teammate.py
+datacollection/        # Data scraping scripts
+│   scrapegamelogs.py
+│   jokic_gamelogs_without_teammate.py
 
-src/                 # Core ML pipeline
-  train.py           # Trains model and prints prediction accuracy
-  main.py            # Outputs predicted PRA for upcoming matchup
+src/                   # Core ML pipeline
+│   train.py           # Trains model and prints prediction accuracy
+│   main.py            # Outputs predicted PRA for upcoming matchup
 
-notebooks/           # Placeholder for any exploratory notebooks
-requirements.txt     # Python dependencies
-README.md            # You're reading it!
+notebooks/             # Placeholder for any exploratory notebooks
+
+requirements.txt       # Python dependencies
+README.md              # You're reading it!
 
 # How It Works
 
@@ -73,22 +76,22 @@ Applies model weights to generate PRA prediction
 
 # Example Usage
 
-Scrape Jokic's full game log data (from NBA API)
-    $ python datacollection/scrapegamelogs.py
-    ✅ Saved: data/jokic_game_logs.csv
+# 1. Scrape Jokic's full game log data from NBA API
+$ python datacollection/scrapegamelogs.py
+✅ Saved: data/jokic_game_logs.csv
 
-Generate updated feature values (rolling avg, season avg, head-to-head avg)
-    $ python data/feature_pipeline.py
-    ✅ Saved: data/jokic_features_24-25.csv
+# 2. Generate updated feature values (rolling avg, season avg, head-to-head avg)
+$ python data/feature_pipeline.py
+✅ Saved: data/jokic_features_24-25.csv
 
-Train the model using walk-forward linear regression
-    $ python src/train.py
-    📊 Mean Absolute Error (MAE): 11.37
+# 3. Train the model using walk-forward linear regression
+$ python src/train.py
+📊 Mean Absolute Error (MAE): 11.37
 
-Predict Jokic's PRA for an upcoming game
-    $ python src/main.py
-    📝 Who is Jokic's next opponent (e.g., LAL)? LAC
-    📊 Predicted PRA: 52.94
+# 4. Predict Jokic's PRA for an upcoming game
+$ python src/main.py
+📝 Who is Jokic's next opponent (e.g., LAL)? LAC
+📊 Predicted PRA: 52.94
 
 # Requirements
 
