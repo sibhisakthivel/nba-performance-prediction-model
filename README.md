@@ -56,24 +56,24 @@ Applies model weights to generate PRA prediction
 
 # Example Usage
 
-Scrape Jokic's full game log data from NBA API
+Scrape Jokic's full game log data from NBA API:
     $ python datacollection/scrapegamelogs.py
 
 ✅ Saved: data/jokic_game_logs.csv
 
-Generate updated feature values (rolling avg, season avg, head-to-head avg)
+Generate updated feature values (rolling avg, season avg, head-to-head avg):
     $ python data/feature_pipeline.py
 
 ✅ Saved: data/jokic_features_24-25.csv
 
-Train the model using walk-forward linear regression
+Train the model using walk-forward linear regression:
     $ python src/train.py
 
 📊 Mean Absolute Error (MAE): 11.37
 
-Predict Jokic's PRA for an upcoming game
+Predict Jokic's PRA for an upcoming game:
     $ python src/main.py
-    
+
 📝 Who is Jokic's next opponent (e.g., LAL)? LAC
 📊 Predicted PRA: 52.94
 
