@@ -16,26 +16,6 @@ Predicts PRA for upcoming games based on real-time features
 
 Modular design for adding new features and expanding to other players
 
-# Directory Structure
-
-data/                  # Feature values and game logs
-│   feature_pipeline.py
-│   jokic_game_logs.csv
-│   jokic_features_24-25.csv
-
-datacollection/        # Data scraping scripts
-│   scrapegamelogs.py
-│   jokic_gamelogs_without_teammate.py
-
-src/                   # Core ML pipeline
-│   train.py           # Trains model and prints prediction accuracy
-│   main.py            # Outputs predicted PRA for upcoming matchup
-
-notebooks/             # Placeholder for any exploratory notebooks
-
-requirements.txt       # Python dependencies
-README.md              # You're reading it!
-
 # How It Works
 
 # Data Collection
@@ -76,19 +56,19 @@ Applies model weights to generate PRA prediction
 
 # Example Usage
 
-# 1. Scrape Jokic's full game log data from NBA API
+Scrape Jokic's full game log data from NBA API
 $ python datacollection/scrapegamelogs.py
 ✅ Saved: data/jokic_game_logs.csv
 
-# 2. Generate updated feature values (rolling avg, season avg, head-to-head avg)
+Generate updated feature values (rolling avg, season avg, head-to-head avg)
 $ python data/feature_pipeline.py
 ✅ Saved: data/jokic_features_24-25.csv
 
-# 3. Train the model using walk-forward linear regression
+Train the model using walk-forward linear regression
 $ python src/train.py
 📊 Mean Absolute Error (MAE): 11.37
 
-# 4. Predict Jokic's PRA for an upcoming game
+Predict Jokic's PRA for an upcoming game
 $ python src/main.py
 📝 Who is Jokic's next opponent (e.g., LAL)? LAC
 📊 Predicted PRA: 52.94
