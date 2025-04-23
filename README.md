@@ -2,7 +2,7 @@
 
 # Overview
 
-2-3 sentences describing model
+This model predicts Nikola Jokic’s Points + Rebounds + Assists (PRA) for upcoming NBA games using an XGBoost regression model trained with walk-forward validation. It incorporates engineered features such as rolling averages (3/5/10 games), season averages, head-to-head matchup stats, and opponent defensive metrics. Designed for fans, analysts, and bettors, the tool delivers real-time, data-driven forecasts that adapt dynamically throughout the 2024–25 season.
 
 # Features
 
@@ -16,23 +16,24 @@ Opponent Defensive Stats
 
 # Directory Structure
 
--- data
-    -- build_rolling_opponent_stats.py
-    -- xgboost_features.py
-    -- linear_regression_features.py
+data:
+    build_rolling_opponent_stats.py
+    xgboost_features.py
+    linear_regression_features.py
 
--- data collection
-    -- scrapegamelogs.py
-    -- defensivestatscrape.py
-    -- jokic_gamelogs_without_teammate.py
+data collection:
+    scrapegamelogs.py
+    defensivestatscrape.py
+    jokic_gamelogs_without_teammate.py
 
--- models
-    -- xgboost
-        -- train.py
-        -- predict.py
-    -- linear regression
-        -- train.py
-        -- predict.py
+models:
+    xgboost:
+        train.py
+        predict.py
+
+    linear regression:
+        train.py
+        predict.py
 
 requirements.txt
 
