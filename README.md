@@ -17,22 +17,33 @@ Opponent Defensive Stats
 # Directory Structure
 
 data:
+
     build_rolling_opponent_stats.py
+
     xgboost_features.py
+
     linear_regression_features.py
 
 data collection:
+
     scrapegamelogs.py
+
     defensivestatscrape.py
+
     jokic_gamelogs_without_teammate.py
 
 models:
+
     xgboost:
+
         train.py
+
         predict.py
 
     linear regression:
+
         train.py
+        
         predict.py
 
 requirements.txt
