@@ -9,7 +9,7 @@ jokic_id = jokic['id']
 
 # Step 2: Pull game logs across multiple seasons
 all_logs = []
-seasons = ['2024', '2023', '2022', '2021', '2020', '2019']  # Add/remove as needed
+seasons = ['2024', '2023', '2022', '2021', '2020']  # Add/remove as needed
 
 for season in seasons:
     print(f"Fetching {season} Regular Season...")
