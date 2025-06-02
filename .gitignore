@@ -35,8 +35,13 @@ Thumbs.db
 *.joblib
 
 # --- Data files ---
-*.csv
-data/
+# Ignore most data outputs, but allow raw inputs and scripts
+data/processed/
+data/features_by_target/
+data/team_game_logs/
+data/opponent_rolling_stats_by_season/
+!data/raw/
+!data/scripts/
 
 # --- Compiled notebooks or HTML reports ---
 *.html
