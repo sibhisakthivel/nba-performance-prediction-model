@@ -30,18 +30,17 @@ Thumbs.db
 # --- VSCode project settings ---
 .vscode/
 
-# --- Model files ---
+# --- Model files (ignore binaries, not CSVs) ---
 *.pkl
 *.joblib
 
 # --- Data files ---
-# Ignore most data outputs, but allow raw inputs and scripts
-data/processed/
-data/features_by_target/
-data/team_game_logs/
-data/opponent_rolling_stats_by_season/
-!data/raw/
-!data/scripts/
+# Ignore raw outputs or redundant exports, but allow processed data
+data/features_by_target/         # now moved to processed/
+data/opponent_rolling_stats_by_season/  # now moved to processed/
+!data/processed/                 # include all processed data
+!data/raw/                       # include raw scraped logs
+!data/scripts/                   # include all feature engineering scripts
 
 # --- Compiled notebooks or HTML reports ---
 *.html
