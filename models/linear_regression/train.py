@@ -1,8 +1,7 @@
 """
-train.py - Walk-forward evaluation using Linear Regression
-on Jokic's engineered features (season avg, rolling avg, head-to-head avg).
-
-Outputs model MAE, feature weights, and optionally prints each game prediction.
+train.py - Walk-forward evaluation of Linear Regression model
+Predicts Jokic's PRA using rolling, season, and head-to-head averages.
+Prints per-game predictions and outputs model MAE.
 """
 
 import pandas as pd
@@ -13,10 +12,10 @@ import os
 # === Config ===
 FEATURES = ["season_avg_pra", "rolling_avg_pra", "head2head_avg_pra"]
 DATA_PATH = os.path.join("data", "jokic_features_24-25.csv")
-SHOW_EACH_PREDICTION = True  # Toggle this to show/hide game-by-game predictions
-SAVE_CSV = True              # Toggle this to save predictions to CSV
+SHOW_EACH_PREDICTION = True  # Show game-by-game prediction logs
+SAVE_CSV = True              # Save predictions to CSV
 
-# === Load data ===
+# === Load and clean data ===
 df = pd.read_csv(DATA_PATH)
 df = df.dropna()
 df = df.sort_values("GAME_DATE")
@@ -48,21 +47,19 @@ for i in range(1, len(df)):
     opponents.append(test["OPPONENT"].values[0])
 
     if SHOW_EACH_PREDICTION:
-        game_date = test["GAME_DATE"].values[0]
-        opponent = test["OPPONENT"].values[0]
-        print(f"📅 {pd.to_datetime(game_date).date()} vs {opponent} | Pred: {pred:.2f} | Actual: {actual:.2f}")
+        game_date = pd.to_datetime(test["GAME_DATE"].values[0]).date()
+        print(f"📅 {game_date} vs {test['OPPONENT'].values[0]} | Pred: {pred:.2f} | Actual: {actual:.2f}")
 
-# === Results ===
+# === Results summary ===
 mae = mean_absolute_error(actuals, predictions)
 print(f"\n📊 Mean Absolute Error (MAE): {mae:.2f}")
 
-# Final feature weights
 print("\n📈 Feature Weights (final model):")
 for f, w in zip(FEATURES, model.coef_):
     print(f"  {f:<20}: {w:.2f}")
 print(f"  {'Intercept':<20}: {model.intercept_:.2f}")
 
-# === Optional: save predictions ===
+# === Optional: Save predictions ===
 if SAVE_CSV:
     output = pd.DataFrame({
         "GAME_DATE": dates,
