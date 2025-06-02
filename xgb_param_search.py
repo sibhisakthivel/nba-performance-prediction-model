@@ -1,53 +1,58 @@
+"""
+xgb_param_search.py
+Performs GridSearchCV for hyperparameter tuning across all XGBoost models (PTS, REB, AST).
+Best model for each stat is saved separately.
+"""
+
 import pandas as pd
-import xgboost as xgb
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_absolute_error, make_scorer
 import joblib
+from xgboost import XGBRegressor
+from sklearn.model_selection import GridSearchCV
 import os
 
-# === CONFIG ===
-DATA_PATH = "data/features_by_target/features_points.csv"
-FEATURES_JOBLIB = "models/xgboost/features_pts.joblib"
-OUTPUT_MODEL_PATH = "models/xgboost/xgb_pts_tuned.joblib"
+# === Target configuration ===
+targets = {
+    "PTS": {
+        "data_path": "data/features_by_target/features_points.csv",
+        "features_path": "models/xgboost/features_pts.joblib",
+        "output_model_path": "models/xgboost/xgb_pts_tuned.joblib"
+    },
+    "REB": {
+        "data_path": "data/features_by_target/features_rebounds.csv",
+        "features_path": "models/xgboost/features_reb.joblib",
+        "output_model_path": "models/xgboost/xgb_reb_tuned.joblib"
+    },
+    "AST": {
+        "data_path": "data/features_by_target/features_assists.csv",
+        "features_path": "models/xgboost/features_ast.joblib",
+        "output_model_path": "models/xgboost/xgb_ast_tuned.joblib"
+    }
+}
 
-# === Load data ===
-df = pd.read_csv(DATA_PATH).dropna()
-feature_cols = joblib.load(FEATURES_JOBLIB)
-
-X = df[feature_cols]
-y = df["PTS"]
-
-# === Define scoring ===
-mae_scorer = make_scorer(mean_absolute_error, greater_is_better=False)
-
-# === Define parameter grid ===
+# === Grid search parameters ===
 param_grid = {
-    "n_estimators": [100, 300, 500],
-    "max_depth": [3, 4, 5],
+    "n_estimators": [100, 200],
+    "max_depth": [3, 5],
     "learning_rate": [0.01, 0.05, 0.1],
     "subsample": [0.8, 1.0],
     "colsample_bytree": [0.8, 1.0]
 }
 
-# === Grid Search ===
-print("🔍 Running GridSearchCV...")
-model = xgb.XGBRegressor(objective="reg:squarederror", verbosity=0, random_state=42)
+# === Run search for each stat ===
+for stat, config in targets.items():
+    print(f"\n🔍 Running GridSearchCV for {stat}...")
 
-grid = GridSearchCV(
-    estimator=model,
-    param_grid=param_grid,
-    scoring=mae_scorer,
-    cv=5,
-    verbose=1,
-    n_jobs=-1
-)
+    df = pd.read_csv(config["data_path"]).dropna()
+    feature_cols = joblib.load(config["features_path"])
+    X = df[feature_cols]
+    y = df[stat]
 
-grid.fit(X, y)
+    model = XGBRegressor(objective="reg:squarederror", verbosity=0, random_state=42)
+    grid_search = GridSearchCV(model, param_grid, cv=5, scoring="neg_mean_absolute_error", n_jobs=-1)
+    grid_search.fit(X, y)
 
-# === Results ===
-print(f"\n✅ Best Params: {grid.best_params_}")
-print(f"📉 Best CV MAE: {-grid.best_score_:.2f}")
+    print(f"✅ Best Params for {stat}: {grid_search.best_params_}")
+    print(f"📉 Best CV MAE for {stat}: {abs(grid_search.best_score_):.2f}")
 
-# === Optional: Save the best model ===
-joblib.dump(grid.best_estimator_, OUTPUT_MODEL_PATH)
-print(f"💾 Best model saved to: {OUTPUT_MODEL_PATH}")
+    joblib.dump(grid_search.best_estimator_, config["output_model_path"])
+    print(f"💾 Saved best {stat} model to: {config['output_model_path']}")

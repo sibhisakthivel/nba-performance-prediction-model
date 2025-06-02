@@ -1,30 +1,56 @@
+"""
+shap_feature_analysis.py
+Generates SHAP summary plots for each XGBoost model (PTS, REB, AST).
+Plots are saved as PNGs for use in reports, README, or interpretability analysis.
+"""
+
+import pandas as pd
 import shap
 import joblib
-import pandas as pd
-import xgboost as xgb
 import matplotlib.pyplot as plt
 
-# === CONFIG ===
-model_path = "models/xgboost/xgb_pts.joblib"
-features_path = "models/xgboost/features_pts.joblib"
-data_path = "data/features_by_target/features_points.csv"
+# === Target configuration ===
+targets = {
+    "PTS": {
+        "model_path": "models/xgboost/xgb_pts.joblib",
+        "features_path": "models/xgboost/features_pts.joblib",
+        "data_path": "data/features_by_target/features_points.csv",
+        "output_path": "models/xgboost/shap_importance_pts.png",
+        "title": "SHAP Feature Importance — POINTS"
+    },
+    "REB": {
+        "model_path": "models/xgboost/xgb_reb.joblib",
+        "features_path": "models/xgboost/features_reb.joblib",
+        "data_path": "data/features_by_target/features_rebounds.csv",
+        "output_path": "models/xgboost/shap_importance_reb.png",
+        "title": "SHAP Feature Importance — REBOUNDS"
+    },
+    "AST": {
+        "model_path": "models/xgboost/xgb_ast.joblib",
+        "features_path": "models/xgboost/features_ast.joblib",
+        "data_path": "data/features_by_target/features_assists.csv",
+        "output_path": "models/xgboost/shap_importance_ast.png",
+        "title": "SHAP Feature Importance — ASSISTS"
+    }
+}
 
-# === Load model, features, and data ===
-model = joblib.load(model_path)
-feature_cols = joblib.load(features_path)
-df = pd.read_csv(data_path).dropna()
+# === Generate plots ===
+for stat, cfg in targets.items():
+    print(f"\n📊 Generating SHAP summary for {stat}...")
 
-X = df[feature_cols]
+    model = joblib.load(cfg["model_path"])
+    feature_cols = joblib.load(cfg["features_path"])
+    df = pd.read_csv(cfg["data_path"]).dropna()
+    X = df[feature_cols]
 
-# === SHAP Explainer ===
-explainer = shap.Explainer(model)
-shap_values = explainer(X)
+    explainer = shap.Explainer(model)
+    shap_values = explainer(X)
 
-# === Plot global feature importance ===
-shap.summary_plot(shap_values, X, show=False)
-plt.title("SHAP Feature Importance — POINTS")
-plt.tight_layout()
-plt.savefig("models/xgboost/shap_importance_pts.png")
-plt.close()
+    plt.figure()
+    shap.summary_plot(shap_values, X, show=False)
+    plt.title(cfg["title"])
+    plt.tight_layout()
+    plt.savefig(cfg["output_path"])
+    plt.close()
 
-print("✅ SHAP summary saved to models/xgboost/shap_importance_pts.png")
+    print(f"✅ SHAP plot saved to: {cfg['output_path']}")
