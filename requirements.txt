@@ -1,8 +1,18 @@
+# Core packages
 pandas==2.2.3
 numpy==2.2.4
 scikit-learn==1.6.1
 matplotlib==3.10.1
 seaborn==0.13.2
+
+# Modeling and utilities
+joblib==1.4.2
+xgboost==2.0.3      # You use XGBoost extensively
+shap==0.45.1        # For SHAP analysis
+
+# Data access
 requests==2.32.3
-jupyterlab==4.3.6       # if you're using notebooks and want to specify Jupyter
-joblib==1.4.2           # used for saving/loading ML models
+nba-api==1.4.1      # Required for all data scraping scripts
+
+# Notebooks
+jupyterlab==4.3.6
