@@ -1,0 +1,29 @@
+gameId,teamId,teamCity,teamName,teamTricode,teamSlug,personId,firstName,familyName,nameI,playerSlug,position,comment,jerseyNum,minutes,effectiveFieldGoalPercentage,freeThrowAttemptRate,teamTurnoverPercentage,offensiveReboundPercentage,oppEffectiveFieldGoalPercentage,oppFreeThrowAttemptRate,oppTeamTurnoverPercentage,oppOffensiveReboundPercentage
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1629622,Max,Strus,M. Strus,max-strus,F,,1,28:17,0.556,0.296,0.081,0.0,0.593,0.167,0.172,0.227
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1630596,Evan,Mobley,E. Mobley,evan-mobley,F,,4,35:51,0.643,0.286,0.119,0.071,0.577,0.246,0.16,0.133
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1628386,Jarrett,Allen,J. Allen,jarrett-allen,C,,31,21:07,0.526,0.263,0.138,0.091,0.553,0.289,0.225,0.313
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1628378,Donovan,Mitchell,D. Mitchell,donovan-mitchell,G,,45,36:39,0.608,0.246,0.117,0.031,0.581,0.279,0.154,0.167
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1629636,Darius,Garland,D. Garland,darius-garland,G,,10,31:59,0.431,0.397,0.112,0.0,0.6,0.291,0.211,0.261
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1627777,Georges,Niang,G. Niang,georges-niang,,,20,27:08,0.705,0.341,0.139,0.0,0.635,0.188,0.183,0.136
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1630171,Isaac,Okoro,I. Okoro,isaac-okoro,,,35,23:01,0.554,0.243,0.149,0.0,0.688,0.45,0.151,0.188
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1627747,Caris,LeVert,C. LeVert,caris-levert,,,3,30:24,0.637,0.314,0.162,0.0,0.651,0.283,0.163,0.13
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1629731,Dean,Wade,D. Wade,dean-wade,,,32,2:46,0.0,0.4,0.254,0.0,0.875,1.0,0.148,0.0
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,202684,Tristan,Thompson,T. Thompson,tristan-thompson,,,13,2:48,0.2,0.0,0.0,0.0,0.7,0.6,0.158,0.5
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1627745,Damian,Jones,D. Jones,damian-jones,,DNP - Coach's Decision,30,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1630241,Sam,Merrill,S. Merrill,sam-merrill,,DNP - Coach's Decision,5,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612739,Cleveland,Cavaliers,CLE,cavaliers,1641854,Craig,Porter Jr.,C. Porter Jr.,craig-porter-jr,,DNP - Coach's Decision,9,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1631097,Bennedict,Mathurin,B. Mathurin,bennedict-mathurin,F,,00,24:06,0.56,0.31,0.183,0.04,0.568,0.227,0.117,0.136
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1630167,Obi,Toppin,O. Toppin,obi-toppin,F,,1,20:30,0.547,0.209,0.14,0.042,0.592,0.237,0.091,0.118
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1626167,Myles,Turner,M. Turner,myles-turner,C,,33,30:37,0.605,0.298,0.142,0.034,0.5,0.321,0.105,0.143
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1628971,Bruce,Brown,B. Brown,bruce-brown,G,,11,37:25,0.609,0.246,0.178,0.03,0.522,0.299,0.1,0.129
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1630169,Tyrese,Haliburton,T. Haliburton,tyrese-haliburton,G,,0,34:19,0.577,0.262,0.127,0.0,0.565,0.29,0.108,0.143
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1627741,Buddy,Hield,B. Hield,buddy-hield,,,7,30:14,0.689,0.34,0.186,0.0,0.604,0.313,0.176,0.136
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1629614,Andrew,Nembhard,A. Nembhard,andrew-nembhard,,,2,17:56,0.621,0.31,0.231,0.0,0.667,0.4,0.149,0.091
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1630188,Jalen,Smith,J. Smith,jalen-smith,,,25,17:26,0.621,0.31,0.231,0.133,0.69,0.241,0.162,0.1
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1630174,Aaron,Nesmith,A. Nesmith,aaron-nesmith,,,23,27:29,0.674,0.256,0.211,0.05,0.554,0.348,0.152,0.143
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1630543,Isaiah,Jackson,I. Jackson,isaiah-jackson,,DNP - Coach's Decision,22,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,204456,T.J.,McConnell,T. McConnell,tj-mcconnell,,DNP - Coach's Decision,9,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1629670,Jordan,Nwora,J. Nwora,jordan-nwora,,DNP - Coach's Decision,13,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1641767,Ben,Sheppard,B. Sheppard,ben-sheppard,,DNP - Coach's Decision,26,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1628464,Daniel,Theis,D. Theis,daniel-theis,,DNP - Coach's Decision,27,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+0022300001,1610612754,Indiana,Pacers,IND,pacers,1641716,Jarace,Walker,J. Walker,jarace-walker,,DNP - Coach's Decision,5,,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
