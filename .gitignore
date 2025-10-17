@@ -50,7 +50,26 @@ data/opponent_rolling_stats_by_season/  # now moved to processed/
 *.egg-info/
 dist/
 build/
-
-# --- Lock/backup files ---
 *.lock
 *.bak
+
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+jokic/
+
+# Jupyter artifacts
+.ipynb_checkpoints/
+
+# VSCode config
+.vscode/
+
+# Large local data
+data/odds/
+data/archived_data/
