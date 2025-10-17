@@ -1,7 +1,5 @@
 # NBA Player Performance Prediction Model
 
-Predicts NBA player statistical performances using machine learning to identify sportsbook betting line discrepancies.
-
 ## Overview
 
 This repository forms the foundation for an ensemble-based NBA player performance prediction system that integrates deep learning, machine learning, and statistical modeling techniques. It includes an automated ETL pipeline for real-time data ingestion and feature simulation, along with modular model architecture outlines that can scale to more complex databases and simulation frameworks.
